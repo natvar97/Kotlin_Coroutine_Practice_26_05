@@ -26,16 +26,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         job = Job()
 
-        launch {
-            try {
-                coroutineScope {
-                    val differedUser = async { fetchUser() }
-                    val differedMovie = async { fetchMovie() }
-                    showResult(differedUser.await(), differedMovie.await())
-                }
-            } catch (e: Exception) {
-            }
-        }
+
 
 
     }
@@ -75,6 +66,80 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
 }
+
+/*
+         // if we want the return catch for failed fetchUser() and succeed call for fetchMovie()
+         * using withContext
+            launch {
+                try {
+                    supervisorScope {
+                        val user = try {
+                            withContext(Dispatchers.IO) { fetchUser() }
+                        } catch (e : Exception) {
+                            emptyList<User>()
+                        }
+                        val movie = try {
+                            withContext(Dispatchers.IO) { fetchMovie() }
+                        } catch (e : Exception) {
+                            emptyList<Movie>()
+                        }
+                        showResult(user as User , movie as Movie)
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+
+
+ */
+
+
+
+/*
+
+         // if we want the return catch for failed fetchUser() and succeed call for fetchMovie()
+         *  using async and await
+            launch {
+                try {
+                    supervisorScope {
+                        val userDefered = async { fetchUser() }
+                        val movieDefered = async { fetchMovie() }
+
+                        val user = try {
+                            userDefered.await()
+                        } catch (e: Exception) {
+                            emptyList<User>()
+                        }
+                        val movie = try {
+                            movieDefered.await()
+                        } catch (e: Exception) {
+                            emptyList<User>()
+                        }
+
+                        showResult(user as User , movie as Movie)
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+ */
+
+/*
+        * when a call is fail then it will return the catch
+
+        launch {
+            try {
+                coroutineScope {
+                    val differedUser = async { fetchUser() }
+                    val differedMovie = async { fetchMovie() }
+                    showResult(differedUser.await(), differedMovie.await())
+                }
+            } catch (e: Exception) {
+            }
+        }
+
+
+ */
 
 /*
         * Personal try and catch
