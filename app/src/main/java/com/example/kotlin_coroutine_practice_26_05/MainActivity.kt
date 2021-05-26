@@ -64,8 +64,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             movie
         }
     }
-
 }
+
+/*
+        * here if we are not using async and await then we can go with "try and catch" or "CoroutineExceptionHandler"
+        * but if we are using async and await then we should use try and catch and with addition
+          we should use coroutineScope and supervisorScope
+          *  with supervisorScope if one of the or more tasks failed then it will continue with other tasks completion
+          *  with coroutineScope if you don't want to continue if one execution is failed.
+
+
+ */
 
 /*
          // if we want the return catch for failed fetchUser() and succeed call for fetchMovie()
